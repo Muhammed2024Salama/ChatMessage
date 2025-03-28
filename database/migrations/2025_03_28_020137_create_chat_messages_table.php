@@ -28,9 +28,9 @@ return new class extends Migration
             $table->unsignedBigInteger('entity_id')->nullable();
             $table->boolean('is_deleted')->default(false);
             $table->softDeletes();
-            $table->foreign('sender_id')->references('user_id')
+            $table->foreign('sender_id')->references('id')
                 ->on('users')->onDelete('cascade');
-            $table->foreign('receiver_id')->references('user_id')
+            $table->foreign('receiver_id')->references('id')
                 ->on('users')->onDelete('cascade');
         });
     }
