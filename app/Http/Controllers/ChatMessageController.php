@@ -28,8 +28,8 @@ class ChatMessageController extends Controller
     public function sendMessage(Request $request)
     {
         $data = $request->validate([
-            'sender_id' => 'required|exists:users,user_id',
-            'receiver_id' => 'required|exists:users,user_id',
+            'sender_id' => 'required|exists:users,id',
+            'receiver_id' => 'required|exists:users,id',
             'message_text' => 'nullable|string',
             'message_type' => 'required|string',
             'attachment_url' => 'nullable|string',
