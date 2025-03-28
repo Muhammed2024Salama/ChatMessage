@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\MessageSentEvent;
 use App\Helper\ResponseHelper;
 use App\Interface\ChatMessageInterface;
 
@@ -27,7 +28,7 @@ class ChatMessageService
     public function sendMessage(array $data)
     {
         $message = $this->chatMessageRepository->sendMessage($data);
-
+        broadcast(new MessageSentEvent($message))->toOthers();
         return ResponseHelper::success('success', 'Message sent successfully', $message);
     }
 
