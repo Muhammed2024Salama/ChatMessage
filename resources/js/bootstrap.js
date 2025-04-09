@@ -1,4 +1,21 @@
-import axios from 'axios';
-window.axios = axios;
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.Pusher = Pusher;
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
+    forceTLS: true
+});
+
+
+// window.Echo.private('chat.1')
+//     .listen('.message.sent', (data) => {
+//         console.log('تم استقبال الرسالة:', data);
+//     });
+// window.Echo.private('chat.1')
+//     .listen('.message.sent', (data) => {
+//         console.log('تم استقبال الرسالة:', data);
+//     });
