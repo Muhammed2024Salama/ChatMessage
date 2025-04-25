@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Base\Controllers\Controller;
+use App\Http\Base\BaseController;
 use App\Services\ChatMessageService;
 use Illuminate\Http\Request;
 
-class ChatMessageController extends Controller
+class ChatMessageController extends BaseController
 {
     /**
      * @var ChatMessageService
