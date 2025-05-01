@@ -28,10 +28,10 @@ class SendMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'sender_id' => 'required|exists:users,user_id',
-            'receiver_id' => 'required|exists:users,user_id|different:sender_id',
+            'sender_id' => 'required|exists:users,id',
+            'receiver_id' => 'required|exists:users,id|different:sender_id',
             'message_text' => 'required|string',
-            'message_type' => 'required', Rule::in(MessageType::values()),
+            'message_type' => ['required', Rule::in(MessageType::values())],
             'attachment_url' => 'nullable|string',
             'entity_type' => [
                 'required',
@@ -42,6 +42,7 @@ class SendMessageRequest extends FormRequest
         ];
     }
 
+
     /**
      * Override failed validation response to add custom validation message
      *
@@ -50,7 +51,7 @@ class SendMessageRequest extends FormRequest
      */
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
     {
-        if ($this->sender_id === $this->receiver_id) {
+        if ($this->sender === $this->receiver) {
             return ResponseHelper::error(
                 'error',
                 'Sender and receiver cannot be the same user.',

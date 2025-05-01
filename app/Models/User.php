@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -60,5 +61,14 @@ class User extends Authenticatable
     public function chatMessagesReceived()
     {
         return $this->hasMany(ChatMessage::class, 'receiver_id');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function lastMessage(): HasOne
+    {
+        return $this->hasOne(ChatMessage::class, 'sender_id', 'user_id')
+            ->latestOfMany('sent_at');
     }
 }
