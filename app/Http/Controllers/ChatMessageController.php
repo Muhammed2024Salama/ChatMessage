@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Base\BaseController;
+use App\Http\Requests\Chat\SendMessageRequest;
 use App\Services\ChatMessageService;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,7 @@ class ChatMessageController extends BaseController
     /**
      * @var ChatMessageService
      */
-    protected $chatMessageService;
+    protected ChatMessageService $chatMessageService;
 
     /**
      * @param ChatMessageService $chatMessageService
@@ -22,38 +23,29 @@ class ChatMessageController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param SendMessageRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendMessage(Request $request)
+    public function sendMessage(SendMessageRequest $request)
     {
-        $data = $request->validate([
-            'sender_id' => 'required|exists:users,id',
-            'receiver_id' => 'required|exists:users,id',
-            'message_text' => 'nullable|string',
-            'message_type' => 'required|string',
-            'attachment_url' => 'nullable|string',
-        ]);
-
-        return $this->chatMessageService->sendMessage($data);
+        return $this->chatMessageService->sendMessage($request->validated());
     }
 
     /**
-     * @param $senderId
-     * @param $receiverId
+     * @param int $senderId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getChatHistory($senderId, $receiverId)
+    public function getChatHistory(int $senderId)
     {
-        return $this->chatMessageService->getChatHistory($senderId, $receiverId);
+        return $this->chatMessageService->getChatHistory($senderId);
     }
 
     /**
-     * @param $messageId
+     * @param int $senderIdId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function markAsRead($messageId)
+    public function markAsRead(int $senderId)
     {
-        return $this->chatMessageService->markAsRead($messageId);
+        return $this->chatMessageService->markAsRead($senderId);
     }
 }

@@ -14,14 +14,13 @@ interface ChatMessageInterface
 
     /**
      * @param int $senderId
-     * @param int $receiverId
      * @return mixed
      */
-    public function getChatHistory(int $senderId, int $receiverId);
+    public function getChatHistory(int $senderId);
 
     /**
-     * @param int $messageId
+     * @param int $senderId
      * @return mixed
      */
-    public function markAsRead(int $messageId);
+    public function markAsRead(int $senderId);
 }

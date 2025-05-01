@@ -14,29 +14,28 @@ class ChatMessageRepository implements ChatMessageInterface
      */
     public function sendMessage(array $data): ChatMessage
     {
+        $data['sent_at'] = $data['sent_at'] ?? now();
         return ChatMessage::create($data);
     }
 
     /**
      * @param int $senderId
-     * @param int $receiverId
      * @return Collection
      */
-    public function getChatHistory(int $senderId, int $receiverId): Collection
+    public function getChatHistory(int $senderId): Collection
     {
-        return ChatMessage::where(function ($query) use ($senderId, $receiverId) {
-            $query->where('sender_id', $senderId)->where('receiver_id', $receiverId);
-        })->orWhere(function ($query) use ($senderId, $receiverId) {
-            $query->where('sender_id', $receiverId)->where('receiver_id', $senderId);
-        })->orderBy('sent_at', 'asc')->get();
+        return ChatMessage::where('sender_id', $senderId)
+            ->orWhere('receiver_id', $senderId)
+            ->orderBy('sent_at', 'asc')
+            ->get();
     }
 
     /**
-     * @param int $messageId
+     * @param int $senderId
      * @return mixed
      */
-    public function markAsRead(int $messageId)
+    public function markAsRead(int $senderId)
     {
-        return ChatMessage::where('message_id', $messageId)->update(['is_read' => true, 'read_at' => now()]);
+        return ChatMessage::where('sender_id', $senderId)->update(['is_read' => true, 'read_at' => now()]);
     }
 }

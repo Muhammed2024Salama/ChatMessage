@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events\MessageSentEvent;
 use App\Helper\ResponseHelper;
+use App\Http\Resources\ChatMessageResource;
 use App\Interface\ChatMessageInterface;
 
 class ChatMessageService
@@ -11,7 +12,7 @@ class ChatMessageService
     /**
      * @var ChatMessageInterface
      */
-    protected $chatMessageRepository;
+    protected ChatMessageInterface $chatMessageRepository;
 
     /**
      * @param ChatMessageInterface $chatMessageRepository
@@ -28,28 +29,38 @@ class ChatMessageService
     public function sendMessage(array $data)
     {
         $message = $this->chatMessageRepository->sendMessage($data);
+
         broadcast(new MessageSentEvent($message))->toOthers();
-        return ResponseHelper::success('success', 'Message sent successfully', $message);
+
+        return ResponseHelper::success(
+            'success',
+            'Message sent successfully',
+            new ChatMessageResource($message)
+        );
     }
 
     /**
      * @param int $senderId
-     * @param int $receiverId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getChatHistory(int $senderId, int $receiverId)
+    public function getChatHistory(int $senderId)
     {
-        $messages = $this->chatMessageRepository->getChatHistory($senderId, $receiverId);
-        return ResponseHelper::success('success', 'Chat history retrieved', $messages);
+        $messages = $this->chatMessageRepository->getChatHistory($senderId);
+
+        return ResponseHelper::success(
+            'success',
+            'Chat history retrieved',
+            ChatMessageResource::collection($messages)
+        );
     }
 
     /**
-     * @param int $messageId
+     * @param int $senderId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function markAsRead(int $messageId)
+    public function markAsRead(int $senderId)
     {
-        $this->chatMessageRepository->markAsRead($messageId);
+        $this->chatMessageRepository->markAsRead($senderId);
         return ResponseHelper::success('success', 'Message marked as read');
     }
 }
