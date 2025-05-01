@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\ChatMessage;
+use App\Models\ChatMessage\ChatMessage;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -13,40 +13,28 @@ use Illuminate\Queue\SerializesModels;
 
 class MessageSentEvent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable,
+        InteractsWithSockets,
+        SerializesModels;
 
-    /**
-     * @var ChatMessage
-     */
     public ChatMessage $message;
 
-    /**
-     * @param ChatMessage $message
-     */
     public function __construct(ChatMessage $message)
     {
         $this->message = $message;
     }
 
-    /**
-     * @return PrivateChannel
-     */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.' . $this->message->receiver_id);
+        $channelName = 'chat-' . min($this->message->sender_id, $this->message->receiver_id) . '-' . max($this->message->sender_id, $this->message->receiver_id);
+        return new PrivateChannel($channelName);
     }
 
-    /**
-     * @return string
-     */
     public function broadcastAs()
     {
         return 'message.sent';
     }
 
-    /**
-     * @return array
-     */
     public function broadcastWith()
     {
         return [

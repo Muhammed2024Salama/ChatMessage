@@ -25,6 +25,6 @@ window.Echo = new Echo({
 });
 
 // window.Echo.private(`chat.${receiverId}`)
-//     .listen('message.sent', (message) => { // NOT 'MessageSentEvent'
+//     .listen('message.sent', (message) => {
 //         console.log('New message:', message);
 //     });

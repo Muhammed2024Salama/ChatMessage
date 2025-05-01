@@ -1,3 +1,17 @@
+// import Echo from 'laravel-echo';
+// import Pusher from 'pusher-js';
+//
+// window.Pusher = Pusher;
+//
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: import.meta.env.VITE_PUSHER_APP_KEY,
+//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
+//     forceTLS: true
+// });
+
+// resources/js/bootstrap.js
+
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
@@ -9,13 +23,3 @@ window.Echo = new Echo({
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
     forceTLS: true
 });
-
-
-// window.Echo.private('chat.1')
-//     .listen('.message.sent', (data) => {
-//         console.log('تم استقبال الرسالة:', data);
-//     });
-// window.Echo.private('chat.1')
-//     .listen('.message.sent', (data) => {
-//         console.log('تم استقبال الرسالة:', data);
-//     });
