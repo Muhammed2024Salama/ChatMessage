@@ -38,4 +38,29 @@ class ChatMessageRepository implements ChatMessageInterface
     {
         return ChatMessage::where('sender_id', $senderId)->update(['is_read' => true, 'read_at' => now()]);
     }
+
+    /**
+     * @param int $userId
+     * @return mixed
+     */
+    public function getContacts(int $userId)
+    {
+        $contactIds = ChatMessage::where('sender_id', $userId)
+            ->pluck('receiver_id')
+            ->merge(
+                ChatMessage::where('receiver_id', $userId)->pluck('sender_id')
+            )
+            ->unique()
+            ->toArray();
+
+        return User::whereIn('user_id', $contactIds)
+            ->with(['lastMessage' => function ($query) use ($userId) {
+                $query->where(function ($q) use ($userId) {
+                    $q->where('chat_messages.sender_id', $userId)
+                        ->orWhere('chat_messages.receiver_id', $userId);
+                })
+                    ->latest('chat_messages.sent_at');
+            }])
+            ->get();
+    }
 }

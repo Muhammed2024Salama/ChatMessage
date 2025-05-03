@@ -63,4 +63,15 @@ class ChatMessageService
         $this->chatMessageRepository->markAsRead($senderId);
         return ResponseHelper::success('success', 'Message marked as read');
     }
+
+    /**
+     * @param int $userId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getContacts(int $userId)
+    {
+        $contacts = $this->chatMessageRepository->getContacts($userId);
+
+        return ResponseHelper::success('success', 'Contacts retrieved', $contacts);
+    }
 }
