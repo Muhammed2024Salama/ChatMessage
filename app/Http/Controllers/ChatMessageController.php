@@ -48,4 +48,21 @@ class ChatMessageController extends BaseController
     {
         return $this->chatMessageService->markAsRead($senderId);
     }
+
+    /**
+     * @param int $userId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function contacts(int $userId)
+    {
+        return $this->chatMessageService->getContacts($userId);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllChats()
+    {
+        return $this->chatMessageService->getAllChats();
+    }
 }

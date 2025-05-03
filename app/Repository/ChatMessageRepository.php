@@ -63,4 +63,16 @@ class ChatMessageRepository implements ChatMessageInterface
             }])
             ->get();
     }
+
+    /**
+     * Get all chat messages.
+     *
+     * @return mixed
+     */
+    public function getAllChats()
+    {
+        return ChatMessage::with(['sender', 'receiver'])
+            ->orderBy('sent_at', 'desc')
+            ->get();
+    }
 }

@@ -29,4 +29,11 @@ interface ChatMessageInterface
      * @return mixed
      */
     public function getContacts(int $userId);
+
+    /**
+     * Get all chat messages.
+     *
+     * @return mixed
+     */
+    public function getAllChats();
 }

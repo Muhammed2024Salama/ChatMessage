@@ -74,4 +74,18 @@ class ChatMessageService
 
         return ResponseHelper::success('success', 'Contacts retrieved', $contacts);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllChats()
+    {
+        $messages = $this->chatMessageRepository->getAllChats();
+
+        return ResponseHelper::success(
+            'success',
+            'All chat messages fetched successfully',
+            ChatMessageResource::collection($messages)
+        );
+    }
 }
