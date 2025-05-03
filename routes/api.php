@@ -13,5 +13,6 @@ Route::prefix('chat')->group(function () {
     Route::get('/history/{sender_id}', [ChatMessageController::class, 'getChatHistory']);
     Route::post('/mark-as-read/{senderId}', [ChatMessageController::class, 'markAsRead']);
     Route::get('/contacts/{sender_id}', [ChatMessageController::class, 'contacts']);
+    Route::get('/all', [ChatMessageController::class, 'getAllChats']);
 });
 
