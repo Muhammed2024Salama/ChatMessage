@@ -66,7 +66,7 @@ class RegisterRequest extends FormRequest
      */
     private function phoneNumberRules(): string
     {
-        return 'required|digits:10';
+        return 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:15';
     }
 
     /**
@@ -87,7 +87,7 @@ class RegisterRequest extends FormRequest
             'password.min' => 'The password must be at least 5 characters.',
             'password.max' => 'The password may not be greater than 25 characters.',
             'phone_number.required' => 'The phone number field is required.',
-            'phone_number.digits' => 'The phone number must be 10 digits.',
+            'phone_number.digits' => 'The phone number must be 12 digits.',
         ];
     }
 }
