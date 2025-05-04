@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Interface\ChatMessageInterface;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\ChatMessage;
 
