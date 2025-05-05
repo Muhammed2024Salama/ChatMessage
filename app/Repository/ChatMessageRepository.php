@@ -54,7 +54,7 @@ class ChatMessageRepository implements ChatMessageInterface
             ->unique()
             ->toArray();
 
-        return User::whereIn('user_id', $contactIds)
+        return User::whereIn('id', $contactIds)
             ->with(['lastMessage' => function ($query) use ($userId) {
                 $query->where(function ($q) use ($userId) {
                     $q->where('chat_messages.sender_id', $userId)
@@ -63,6 +63,7 @@ class ChatMessageRepository implements ChatMessageInterface
                     ->latest('chat_messages.sent_at');
             }])
             ->get();
+
     }
 
     /**
