@@ -1,11 +1,10 @@
 {
 	"info": {
-		"_postman_id": "b208abff-243a-412a-9267-2b45a6a36a9f",
+		"_postman_id": "f5b7cdf9-84ab-4b6b-8488-a72e1db5f9e3",
 		"name": "Chat Message",
-		"description": "## 📘 Chat API Documentation\n\nBase URL: `https://yourdomain.com/api`\n\n---\n\n### 1\\. 📤 Send Message\n\n**Endpoint:** `POST /chat/send`  \n**Description:** Send a message from one user to another. Supports text, attachments, and entity linkage (e.g. task or project).\n\n#### 🔸 Request Body (JSON)\n\n```\njsonCopyEdit{\n  \"sender_id\": 1,\n  \"receiver_id\": 2,\n  \"message_text\": \"Hello\",\n  \"message_type\": \"text\",\n  \"attachment_url\": null,\n  \"entity_type\": \"project\",\n  \"entity_id\": 10\n}\n\n ```\n\n#### 🔸 Fields\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| sender_id | integer | Yes | ID of the sender |\n| receiver_id | integer | Yes | ID of the receiver |\n| message_text | string | No | Text content of the message |\n| message_type | string | Yes | Type of message (`text`, `image`, `file`, etc.) |\n| attachment_url | string | No | URL of the attachment (if any) |\n| entity_type | string | No | Related entity type (`task`, `project`, etc.) |\n| entity_id | integer | No | Related entity ID |\n\n#### ✅ Success Response\n\n```\njsonCopyEdit{\n  \"success\": true,\n  \"message\": \"Message sent successfully\",\n  \"data\": {\n    \"id\": 1,\n    \"sender_id\": 1,\n    \"receiver_id\": 2,\n    \"message_text\": \"Hello\",\n    \"message_type\": \"text\",\n    \"attachment_url\": null,\n    \"entity_type\": \"project\",\n    \"entity_id\": 10,\n    \"created_at\": \"2025-04-30T10:00:00Z\"\n  }\n}\n\n ```\n\n---\n\n### 2\\. 📜 Get Chat History\n\n**Endpoint:** `GET /chat/history/{sender_id}`  \n**Description:** Retrieve the conversation history between the authenticated user and another user (identified by sender_id).\n\n#### 🔸 Path Parameter\n\n| Param | Type | Description |\n| --- | --- | --- |\n| sender_id | integer | ID of the other user |\n\n#### ✅ Success Response\n\n```\njsonCopyEdit{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"sender_id\": 1,\n      \"receiver_id\": 2,\n      \"message_text\": \"Hello\",\n      \"message_type\": \"text\",\n      \"attachment_url\": null,\n      \"entity_type\": \"project\",\n      \"entity_id\": 10,\n      \"created_at\": \"2025-04-30T10:00:00Z\"\n    }\n  ]\n}\n\n ```\n\n---\n\n### 3\\. 🧑‍🤝‍🧑 Get Chat Users\n\n**Endpoint:** `GET /chat/users`  \n**Description:** Get a list of users that the authenticated user has chatted with.\n\n#### ✅ Success Response\n\n```\njsonCopyEdit{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": 2,\n      \"name\": \"Ahmed\",\n      \"email\": \"ahmed@example.com\"\n    }\n  ]\n}\n\n ```\n\n---\n\n### 4\\. 🛑 Delete Chat\n\n**Endpoint:** `DELETE /chat/delete/{id}`  \n**Description:** Delete a specific chat message by its ID.\n\n#### 🔸 Path Parameter\n\n| Param | Type | Description |\n| --- | --- | --- |\n| id | integer | ID of the message |\n\n#### ✅ Success Response\n\n```\njsonCopyEdit{\n  \"success\": true,\n  \"message\": \"Message deleted successfully\"\n}\n\n ```\n\n---\n\n## 🔐 Authentication\n\nAll routes require authentication via Bearer token.\n\n**Header:**\n\n```\nmakefileCopyEditAuthorization: Bearer YOUR_ACCESS_TOKEN\n\n ```",
+		"description": "## 📬 Chat API Documentation\n\n### 📌 Base URL\n\n```\narduinoCopyEdithttps://your-domain.com/api\n\n ```\n\n---\n\n### 1\\. **Send Message**\n\n**URL:** `POST /chat/send`  \n**Auth Required:** ✅ Yes (Assuming user authentication is needed)  \n**Body Type:** `application/json`\n\n#### ✅ Request Body\n\n```\njsonCopyEdit{\n  \"sender_id\": 1,\n  \"receiver_id\": 2,\n  \"message_text\": \"Hello there!\",\n  \"message_type\": \"text\",       // or 'image', 'video', etc. based on enum\n  \"attachment_url\": null,       // optional\n  \"entity_type\": \"project\",     // example: 'project', 'task', etc.\n  \"entity_id\": 1001\n}\n\n ```\n\n#### 🟡 Validation Rules\n\n- `sender_id`: required, exists in `users` table\n    \n- `receiver_id`: required, exists, not equal to `sender_id`\n    \n- `message_text`: required string\n    \n- `message_type`: required, one of allowed values (`text`, `image`, etc.)\n    \n- `entity_type`: required, one of allowed entity types\n    \n- `entity_id`: required integer\n    \n- `attachment_url`: optional string\n    \n\n#### 🔄 Response Example\n\n```\njsonCopyEdit{\n  \"status\": true,\n  \"message\": \"Message sent successfully\",\n  \"data\": {\n    \"message_id\": 55,\n    \"sender_id\": 1,\n    \"receiver_id\": 2,\n    \"message_text\": \"Hello there!\",\n    \"message_type\": \"text\",\n    \"attachment_url\": null,\n    \"is_read\": 0,\n    \"created_at\": \"2024-09-01T13:22:10\",\n    \"entity_type\": \"project\",\n    \"entity_id\": 1001,\n    \"sender\": {\n      \"sender_id\": 1,\n      \"name\": \"John Doe\",\n      \"email\": \"john@example.com\"\n    },\n    \"receiver\": {\n      \"receiver_id\": 2,\n      \"name\": \"Jane Smith\",\n      \"email\": \"jane@example.com\"\n    }\n  }\n}\n\n ```\n\n---\n\n### 2\\. **Get Chat History**\n\n**URL:** `GET /chat/history/{sender_id}/{receiver_id}`  \n**Auth Required:** ✅  \n**Description:** Returns the full chat history between two users.\n\n#### 🔄 Response Example\n\n```\njsonCopyEdit{\n  \"status\": true,\n  \"message\": \"Chat history retrieved successfully\",\n  \"data\": [\n    {\n      \"message_id\": 1,\n      \"sender_id\": 1,\n      \"receiver_id\": 2,\n      \"message_text\": \"Hi!\",\n      \"message_type\": \"text\",\n      ...\n    },\n    ...\n  ]\n}\n\n ```\n\n---\n\n### 3\\. **Mark Message as Read**\n\n**URL:** `PATCH /chat/read/{message_id}`  \n**Auth Required:** ✅  \n**Description:** Marks a specific message as read.\n\n#### 🔄 Response Example\n\n```\njsonCopyEdit{\n  \"status\": true,\n  \"message\": \"Message marked as read successfully\"\n}\n\n ```\n\n---\n\n### 4\\. **Get User Contacts**\n\n**URL:** `GET /chat/contacts/{user_id}`  \n**Auth Required:** ✅  \n**Description:** Retrieves a list of users who chatted with the given user.\n\n#### 🔄 Response Example\n\n```\njsonCopyEdit{\n  \"status\": true,\n  \"message\": \"Contacts retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": 2,\n      \"name\": \"Jane Smith\",\n      \"email\": \"jane@example.com\",\n      \"last_message\": {\n        \"message_text\": \"See you soon!\",\n        \"sent_at\": \"2024-09-01 13:50:00\"\n      }\n    },\n    ...\n  ]\n}\n\n ```\n\n---\n\n### 5\\. **Get All Chats**\n\n**URL:** `GET /chat/all`  \n**Auth Required:** ✅  \n**Description:** Retrieves all messages in the system (admin use, perhaps).\n\n#### 🔄 Response Example\n\n```\njsonCopyEdit{\n  \"status\": true,\n  \"message\": \"All chat messages retrieved successfully\",\n  \"data\": [\n    {\n      \"message_id\": 1,\n      \"sender_id\": 1,\n      \"receiver_id\": 2,\n      \"message_text\": \"Hello!\",\n      \"message_type\": \"text\",\n      ...\n    },\n    ...\n  ]\n}\n\n ```\n\n---\n\n## 🗂 Enums Reference\n\n### `message_type`\n\n- `text`\n    \n- `image`\n    \n- `video`\n    \n- (Add based on your enum definition)\n    \n\n### `entity_type`\n\n- `project`\n    \n- `task`\n    \n- `deal`\n    \n- (Add based on your enum definition)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43162929",
-		"_collection_link": "https://realstate-9486.postman.co/workspace/RealState-Workspace~3dd81080-ab77-4cd6-8600-a6a9abe1bc5f/collection/43162929-b208abff-243a-412a-9267-2b45a6a36a9f?action=share&source=collection_link&creator=43162929"
+		"_exporter_id": "43162929"
 	},
 	"item": [
 		{
@@ -583,7 +582,14 @@
 			],
 			"request": {
 				"auth": {
-					"type": "noauth"
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
 				},
 				"method": "GET",
 				"header": [
@@ -599,12 +605,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}chat/history/1",
+					"raw": "{{base_url}}chat/history/2/1",
 					"host": [
 						"{{base_url}}chat"
 					],
 					"path": [
 						"history",
+						"2",
 						"1"
 					]
 				}
@@ -777,7 +784,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvcmVnaXN0ZXIiLCJpYXQiOjE3NDYwMTU3NzYsImV4cCI6MTc0NjEwMjE3NiwibmJmIjoxNzQ2MDE1Nzc2LCJqdGkiOiJTRlc3Zzh0NW1IdEVHdHRTIiwic3ViIjoiNCIsInBydiI6ImI5MTI3OTk3OGYxMWFhN2JjNTY3MDQ4N2ZmZjAxZTIyODI1M2ZlNDgifQ._9DB1Zxmj71lk2T2Okmdn7MduZLneyECcyzJ2NNUmx4",
+							"value": "{{token}}",
 							"type": "string"
 						}
 					]
@@ -797,7 +804,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"sender_id\": 2,\n  \"receiver_id\": 1,\n  \"message_text\": \"Hello, how are you? UBUNTU IS WELCOMING !?\",\n  \"attachment_url\": \"https://laravel.com/docs/12.x/installation\",\n  \"message_type\": \"text\",\n  \"entity_type\": \"developer\", // project -> 1 | propery -> 2 | developer -> 3 || \n  \"entity_id\": 3\n}\n",
+					"raw": "{\n  \"sender_id\": 2,\n  \"receiver_id\": 1,\n  \"message_text\": \"Hello, how are you ? UBUNTU IS WELCOMING 12356!?\",\n  \"attachment_url\": \"https://laravel.com/docs/12.x/installation\",\n  \"message_type\": \"text\",\n  \"entity_type\": \"project\", // project -> 1 | propery -> 2 | developer -> 3 || \n  \"entity_id\": 3\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -864,6 +871,16 @@
 				}
 			],
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3|1U8ISaFhUCQ0YoadpkGRPVGyuI8vtDxvgxeZdFPo7307f559",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [
 					{
@@ -980,7 +997,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3AtYWR2aXNlci5jb20vcmVhbHN0YXRlcHJvamVjdC9wdWJsaWMvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NDU5OTY0ODUsImV4cCI6MTc0NjAwMDA4NSwibmJmIjoxNzQ1OTk2NDg1LCJqdGkiOiJpb29SYWVqWWRlUWMzQUNYIiwic3ViIjoiMjIxIiwicHJ2IjoiYjkxMjc5OTc4ZjExYWE3YmM1NjcwNDg3ZmZmMDFlMjI4MjUzZmU0OCJ9.SH4NjyZP1Fg7MWltK-vVDygm3mmF95boh_0oUApjUNc",
+							"value": "3|1U8ISaFhUCQ0YoadpkGRPVGyuI8vtDxvgxeZdFPo7307f559",
 							"type": "string"
 						}
 					]
@@ -999,13 +1016,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}chat/contacts/1",
+					"raw": "{{base_url}}chat/contacts/2",
 					"host": [
 						"{{base_url}}chat"
 					],
 					"path": [
 						"contacts",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -1014,6 +1031,16 @@
 		{
 			"name": "All Chats",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3|1U8ISaFhUCQ0YoadpkGRPVGyuI8vtDxvgxeZdFPo7307f559",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [
 					{
@@ -1064,8 +1091,13 @@
 	],
 	"variable": [
 		{
-			"key": "baseUrl",
+			"key": "base_url",
 			"value": "https://p-adviser.com/realstateproject",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "6|ftRsiKooOqhX3w4II7exnQLSXP0h9B7d1TMXixmm52c10637",
 			"type": "string"
 		}
 	]
