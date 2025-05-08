@@ -20,10 +20,10 @@ interface ChatMessageInterface
     public function getChatHistory(int $senderId, int $receiverId);
 
     /**
-     * @param int $senderId
+     * @param int $messageId
      * @return mixed
      */
-    public function markAsRead(int $senderId);
+    public function markAsRead(int $messageId);
 
     /**
      * @param int $userId
