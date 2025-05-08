@@ -42,12 +42,12 @@ class ChatMessageController extends BaseController
     }
 
     /**
-     * @param int $senderIdId
+     * @param int $messageId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function markAsRead(int $senderId)
+    public function markAsRead(int $messageId)
     {
-        return $this->chatMessageService->markAsRead($senderId);
+        return $this->chatMessageService->markAsRead($messageId);
     }
 
     /**

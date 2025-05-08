@@ -37,12 +37,12 @@ class ChatMessageRepository implements ChatMessageInterface
 
 
     /**
-     * @param int $senderId
+     * @param int $messageId
      * @return mixed
      */
-    public function markAsRead(int $senderId)
+    public function markAsRead(int $messageId)
     {
-        return ChatMessage::where('sender_id', $senderId)->update(['is_read' => true, 'read_at' => now()]);
+        return ChatMessage::where('id', $messageId)->update(['is_read' => true, 'read_at' => now()]);
     }
 
     /**
