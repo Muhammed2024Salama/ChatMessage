@@ -41,11 +41,12 @@ class ChatMessageService
 
     /**
      * @param int $senderId
+     * @param int $receiverId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getChatHistory(int $senderId)
+    public function getChatHistory(int $senderId, int $receiverId)
     {
-        $messages = $this->chatMessageRepository->getChatHistory($senderId);
+        $messages = $this->chatMessageRepository->getChatHistory($senderId, $receiverId);
 
         return ResponseHelper::success(
             'success',
@@ -53,6 +54,7 @@ class ChatMessageService
             ChatMessageResource::collection($messages)
         );
     }
+
 
     /**
      * @param int $senderId

@@ -33,11 +33,12 @@ class ChatMessageController extends BaseController
 
     /**
      * @param int $senderId
+     * @param int $receiverId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getChatHistory(int $senderId)
+    public function getChatHistory(int $senderId, int $receiverId)
     {
-        return $this->chatMessageService->getChatHistory($senderId);
+        return $this->chatMessageService->getChatHistory($senderId, $receiverId);
     }
 
     /**

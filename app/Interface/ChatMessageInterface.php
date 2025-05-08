@@ -14,9 +14,10 @@ interface ChatMessageInterface
 
     /**
      * @param int $senderId
+     * @param int $receiverId
      * @return mixed
      */
-    public function getChatHistory(int $senderId);
+    public function getChatHistory(int $senderId, int $receiverId);
 
     /**
      * @param int $senderId
