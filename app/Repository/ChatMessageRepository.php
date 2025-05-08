@@ -21,15 +21,20 @@ class ChatMessageRepository implements ChatMessageInterface
 
     /**
      * @param int $senderId
+     * @param int $receiverId
      * @return Collection
      */
-    public function getChatHistory(int $senderId): Collection
+    public function getChatHistory(int $senderId, int $receiverId): Collection
     {
-        return ChatMessage::where('sender_id', $senderId)
-            ->orWhere('receiver_id', $senderId)
+        return ChatMessage::where(function ($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $senderId)->where('receiver_id', $receiverId);
+        })->orWhere(function ($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $receiverId)->where('receiver_id', $senderId);
+        })
             ->orderBy('sent_at', 'asc')
             ->get();
     }
+
 
     /**
      * @param int $senderId
@@ -63,7 +68,6 @@ class ChatMessageRepository implements ChatMessageInterface
                     ->latest('chat_messages.sent_at');
             }])
             ->get();
-
     }
 
     /**
