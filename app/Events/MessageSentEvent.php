@@ -35,6 +35,9 @@ class MessageSentEvent implements ShouldBroadcast
         return 'message.sent';
     }
 
+    /**
+     * @return array
+     */
     public function broadcastWith()
     {
         return [

@@ -20,7 +20,7 @@ Route::controller(AuthController::class)->group(function () {
         Route::prefix('chat')->group(function () {
             Route::post('/send', [ChatMessageController::class, 'sendMessage']);
             Route::get('/history/{sender_id}/{receiver_id}', [ChatMessageController::class, 'getChatHistory']);
-            Route::post('/mark-as-read/{messageId}', [ChatMessageController::class, 'markAsRead']);
+            Route::post('/mark-as-read/{sender_id}/{receiver_id}', [ChatMessageController::class, 'markAsRead']);
             Route::get('/contacts/{sender_id}', [ChatMessageController::class, 'contacts']);
             Route::get('/all', [ChatMessageController::class, 'getAllChats']);
         });
