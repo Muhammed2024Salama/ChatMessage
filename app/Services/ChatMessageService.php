@@ -56,13 +56,14 @@ class ChatMessageService
     }
 
     /**
-     * @param int $messageId
+     * @param int $senderId
+     * @param int $receiverId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function markAsRead(int $messageId)
+    public function markAsRead(int $senderId, int $receiverId)
     {
-        $this->chatMessageRepository->markAsRead($messageId);
-        return ResponseHelper::success('success', 'Message marked as read');
+        $this->chatMessageRepository->markAsRead($senderId, $receiverId);
+        return ResponseHelper::success('success', 'Messages marked as read');
     }
 
     /**
