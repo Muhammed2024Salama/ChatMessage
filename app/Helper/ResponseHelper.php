@@ -20,7 +20,6 @@ class ResponseHelper
      * @param $data array
      * @param $statusCode integer
      * @return JsonResponse
-     * Function : Common function to display success - Json Response
      */
     public static function success($status = 'success', $message = null, $data = [], $statusCode = 200): JsonResponse
     {
