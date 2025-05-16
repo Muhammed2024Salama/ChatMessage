@@ -17,19 +17,31 @@ class MessageSentEvent implements ShouldBroadcast
         InteractsWithSockets,
         SerializesModels;
 
+    /**
+     * @var ChatMessage
+     */
     public ChatMessage $message;
 
+    /**
+     * @param ChatMessage $message
+     */
     public function __construct(ChatMessage $message)
     {
         $this->message = $message;
     }
 
+    /**
+     * @return PrivateChannel
+     */
     public function broadcastOn()
     {
         $channelName = 'chat-' . min($this->message->sender_id, $this->message->receiver_id) . '-' . max($this->message->sender_id, $this->message->receiver_id);
         return new PrivateChannel($channelName);
     }
 
+    /**
+     * @return string
+     */
     public function broadcastAs()
     {
         return 'message.sent';
