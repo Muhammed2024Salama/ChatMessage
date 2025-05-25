@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\UserRole;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -14,23 +14,26 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create three users
         User::create([
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
+            'name' => 'Muhammed Salama',
+            'email' => 'devmuhammedsalama@gmail.com',
             'password' => Hash::make('password'),
+            'role' => UserRole::ADMIN->value,
         ]);
 
+        // Normal users
         User::create([
             'name' => 'Jane Smith',
             'email' => 'jane@example.com',
             'password' => Hash::make('password'),
+            'role' => UserRole::USER->value,
         ]);
 
         User::create([
             'name' => 'Michael Johnson',
             'email' => 'michael@example.com',
             'password' => Hash::make('password'),
+            'role' => UserRole::USER->value,
         ]);
     }
 }
