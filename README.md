@@ -51,4 +51,4 @@ The frontend uses Laravel Echo and Pusher to listen for new messages and update 
 2. Start sending messages between users.
 3. View chat history, mark messages as read, and manage contacts.
 
-Copyright 2025 Muhammed Salama. All rights reserved. 
+Copyright @2025 @Muhammed Salama. All rights reserved. 
