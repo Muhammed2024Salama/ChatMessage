@@ -14,7 +14,7 @@ final class SendMessageDto
         public string $message_type = MessageType::TEXT->value,
         public ?string $attachment_url = null,
         public string $entity_type = MessageEntityType::PROJECT->value,
-        public int $entity_id = 1,
+        public ?int $entity_id = 1,
     ) {
     }
 
