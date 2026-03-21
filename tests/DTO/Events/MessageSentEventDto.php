@@ -5,6 +5,7 @@ namespace Tests\DTO\Events;
 use App\Enums\MessageType;
 use App\Models\ChatMessage;
 use Illuminate\Support\Carbon;
+use Tests\Helper\StrictTestDtoOverrides;
 
 final class MessageSentEventDto
 {
@@ -26,13 +27,7 @@ final class MessageSentEventDto
     {
         $dto = new self();
 
-        foreach ($overrides as $key => $value) {
-            if (!property_exists($dto, $key)) {
-                continue;
-            }
-
-            $dto->{$key} = $value;
-        }
+        StrictTestDtoOverrides::apply($dto, $overrides);
 
         return $dto;
     }

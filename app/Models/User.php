@@ -72,7 +72,7 @@ class User extends Authenticatable
      */
     public function lastMessage(): HasOne
     {
-        return $this->hasOne(ChatMessage::class, 'sender_id', 'user_id')
+        return $this->hasOne(ChatMessage::class, 'sender_id', 'id')
             ->latestOfMany('sent_at');
     }
 }
