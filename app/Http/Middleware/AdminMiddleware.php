@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserRole;
 use App\Helper\ResponseHelper;
 use Closure;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
+        if (Auth::check() && Auth::user()->role === UserRole::ADMIN) {
             return $next($request);
         }
 
